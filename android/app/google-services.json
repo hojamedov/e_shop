@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "401693585549",
+    "project_id": "eshop-398d8",
+    "storage_bucket": "eshop-398d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401693585549:android:a4b0efa4c402a592acf2c4",
+        "android_client_info": {
+          "package_name": "com.hojamedov.eshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401693585549-i00gi4atsl9temt440q65akcettga6su.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJiD7uw57Zgkg2kmIiWU8A3NSywbKwNTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401693585549-i00gi4atsl9temt440q65akcettga6su.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
