@@ -16,8 +16,12 @@ import 'package:firebase_core/firebase_core.dart';
 Future<void> main() async
 {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
+
   EcommerceApp.auth = FirebaseAuth.instance;
+  EcommerceApp.sharedPreferences = await SharedPreferences.getInstance();
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   runApp(MyApp());
 }
