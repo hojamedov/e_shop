@@ -159,7 +159,7 @@ class _AdminSignInScreenState extends State<AdminSignInScreen>
         }
         else
           {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Hoş Geldiňiz" + result.data()["name"]),));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Hoş Geldiňiz " + result.data()[" name"]),));
 
             setState(() {
               _adminIdTextEditingController.text = "";
