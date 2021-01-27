@@ -131,7 +131,7 @@ class _AdminSignInScreenState extends State<AdminSignInScreen>
             SizedBox(
               height: 20.0,
             ),
-            FlatButton.icon(
+            TextButton.icon(
               onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> AuthenticScreen())),
               icon: (Icon(Icons.emoji_people, color: Colors.white,)),
               label: Text("Men Admin däl", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
@@ -151,7 +151,7 @@ class _AdminSignInScreenState extends State<AdminSignInScreen>
       snapshot.docs.forEach((result) {
         if(result.data()["id"] != _adminIdTextEditingController.text.trim())
         {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Loginyňyz nädogry"),));
+          Scaffold.of(context).showSnackBar(SnackBar(content: Text("Loginyňyz nädogry"),));
         }
         else if(result.data()["password"] != _passwordTextEditingController.text.trim())
         {
@@ -159,7 +159,7 @@ class _AdminSignInScreenState extends State<AdminSignInScreen>
         }
         else
           {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Hoş Geldiňiz " + result.data()[" name"]),));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Hoş Geldiňiz, " + result.data()["name"]),));
 
             setState(() {
               _adminIdTextEditingController.text = "";

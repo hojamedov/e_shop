@@ -19,10 +19,17 @@ class UploadPage extends StatefulWidget
 class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMixin<UploadPage>
 {
   bool get wantKeepAlive => true;
+  File file;
+  TextEditingController _descriptionTextEditingController = TextEditingController();
+  TextEditingController _priceTextEditingController = TextEditingController();
+  TextEditingController _titleTextEditingController = TextEditingController();
+  TextEditingController _shortInfoTextEditingController = TextEditingController();
+  String productId = DateTime.now().millisecondsSinceEpoch.toString();
+  bool uploading = false;
 
   @override
   Widget build(BuildContext context) {
-    return displayAdminHomeScreen();
+    return file == null ? displayAdminHomeScreen() : displayAdminUploadFormScreen();
   }
 
   displayAdminHomeScreen()
@@ -86,12 +93,184 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9.0)),
                 child: Text("Täze haryt goşmak", style: TextStyle(fontSize: 20.0, color: Colors.white),),
                 color: Colors.green,
-                onPressed: ()=> print("click"),
+                onPressed: ()=> takeImage(context),
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  takeImage(mContext)
+  {
+    return showDialog(
+      context: mContext,
+      builder: (con)
+        {
+          return SimpleDialog(
+            title: Text("Harydyň surady", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),),
+            children: [
+              SimpleDialogOption(
+                child: Text("Kameradan almak", style: TextStyle(color: Colors.green)),
+                onPressed: capturePhotoWithCamera,
+              ),
+              SimpleDialogOption(
+                child: Text("Galereýadan almak", style: TextStyle(color: Colors.green)),
+                onPressed: pickPhotoFromGallery,
+              ),
+              SimpleDialogOption(
+                child: Text("Cancel", style: TextStyle(color: Colors.green)),
+                onPressed: ()
+                {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        }
+    );
+  }
+
+  capturePhotoWithCamera() async
+  {
+    Navigator.pop(context);
+    File imageFile = await ImagePicker.pickImage(source: ImageSource.camera, maxHeight: 680.0, maxWidth: 970.0);
+
+    setState(() {
+      file = imageFile;
+    });
+  }
+
+  pickPhotoFromGallery() async
+  {
+    Navigator.pop(context);
+    File imagePicker = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      file = imagePicker;
+    });
+  }
+
+  displayAdminUploadFormScreen()
+  {
+    return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: new BoxDecoration(
+            gradient: new LinearGradient(
+              colors: [Colors.blue, Colors.purpleAccent],
+              begin: const FractionalOffset (0.0, 0.0),
+              end: const FractionalOffset (1.0, 0.0),
+              stops: [0.0, 1.0],
+              tileMode: TileMode.clamp,
+            ),
+          ),
+        ),
+        leading: IconButton(icon: Icon(Icons.arrow_back, color: Colors.white,), onPressed: clearFormInfo),
+        title: Text("Täze haryt", style: TextStyle(color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.bold,),),
+        actions: [
+          FlatButton(
+            onPressed: ()=> print("clicked"),
+            child: Text("Ýüklemek", style: TextStyle(color: Colors.pink, fontSize: 16.0, fontWeight: FontWeight.bold,),),
+          ),
+        ],
+      ),
+      body: ListView(
+        children: [
+          uploading ? linearProgress() : Text(""),
+          Container(
+            height: 230.0,
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: Center(
+              child: AspectRatio(
+                aspectRatio: 16/9,
+                child: Container(
+                  decoration: BoxDecoration(image: DecorationImage(image: FileImage(file), fit: BoxFit.cover)),
+                ),
+              ),
+            ),
+          ),
+          Padding(padding: EdgeInsets.only(top: 12.0)),
+
+          ListTile(
+            leading: Icon(Icons.perm_device_information, color: Colors.pink,),
+            title: Container(
+              width: 250.0,
+              child: TextField(
+                style: TextStyle(color: Colors.deepPurpleAccent),
+                controller: _shortInfoTextEditingController,
+                decoration: InputDecoration(
+                  hintText: "Gysga maglumaty",
+                  hintStyle: TextStyle(color: Colors.deepPurpleAccent),
+                ),
+              ),
+            ),
+          ),
+          Divider(color: Colors.pink,),
+
+          ListTile(
+            leading: Icon(Icons.perm_device_information, color: Colors.pink,),
+            title: Container(
+              width: 250.0,
+              child: TextField(
+                style: TextStyle(color: Colors.deepPurpleAccent),
+                controller: _titleTextEditingController,
+                decoration: InputDecoration(
+                  hintText: "Ady",
+                  hintStyle: TextStyle(color: Colors.deepPurpleAccent),
+                ),
+              ),
+            ),
+          ),
+          Divider(color: Colors.pink,),
+
+          ListTile(
+            leading: Icon(Icons.perm_device_information, color: Colors.pink,),
+            title: Container(
+              width: 250.0,
+              child: TextField(
+                style: TextStyle(color: Colors.deepPurpleAccent),
+                controller: _descriptionTextEditingController,
+                decoration: InputDecoration(
+                  hintText: "Doly maglumaty",
+                  hintStyle: TextStyle(color: Colors.deepPurpleAccent),
+                ),
+              ),
+            ),
+          ),
+          Divider(color: Colors.pink,),
+
+          ListTile(
+            leading: Icon(Icons.perm_device_information, color: Colors.pink,),
+            title: Container(
+              width: 250.0,
+              child: TextField(
+                keyboardType: TextInputType.number,
+                style: TextStyle(color: Colors.deepPurpleAccent),
+                controller: _priceTextEditingController,
+                decoration: InputDecoration(
+                  hintText: "Bahasy",
+                  hintStyle: TextStyle(color: Colors.deepPurpleAccent),
+                ),
+              ),
+            ),
+          ),
+          Divider(color: Colors.pink,)
+
+        ],
+      ),
+    );
+  }
+
+  clearFormInfo()
+  {
+    setState(() {
+      file = null;
+      _descriptionTextEditingController.clear();
+      _priceTextEditingController.clear();
+      _shortInfoTextEditingController.clear();
+      _titleTextEditingController.clear();
+    });
   }
 }

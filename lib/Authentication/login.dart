@@ -96,7 +96,7 @@ class _LoginState extends State<Login>
             SizedBox(
               height: 10.0,
             ),
-            FlatButton.icon(
+            TextButton.icon(
               onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> AdminSignInPage())),
               icon: (Icon(Icons.emoji_people, color: Colors.white,)),
               label: Text("Men Admin", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
