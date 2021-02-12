@@ -74,7 +74,7 @@ class MyDrawer extends StatelessWidget {
                 Divider(height: 10.0, color: Colors.white, thickness: 6.0,),
 
                 ListTile(
-                  leading: Icon(Icons.home, color: Colors.white,),
+                  leading: Icon(Icons.reorder, color: Colors.white,),
                   title: Text("Zakazlarym", style: TextStyle(color: Colors.white),),
                   onTap: (){
                     Route route = MaterialPageRoute(builder: (c) => MyOrders());
@@ -84,7 +84,7 @@ class MyDrawer extends StatelessWidget {
                 Divider(height: 10.0, color: Colors.white, thickness: 6.0,),
 
                 ListTile(
-                  leading: Icon(Icons.home, color: Colors.white,),
+                  leading: Icon(Icons.shopping_cart, color: Colors.white,),
                   title: Text("Arabam", style: TextStyle(color: Colors.white),),
                   onTap: (){
                     Route route = MaterialPageRoute(builder: (c) => CartPage());
@@ -94,7 +94,7 @@ class MyDrawer extends StatelessWidget {
                 Divider(height: 10.0, color: Colors.white, thickness: 6.0,),
 
                 ListTile(
-                  leading: Icon(Icons.home, color: Colors.white,),
+                  leading: Icon(Icons.search, color: Colors.white,),
                   title: Text("Gözlemek", style: TextStyle(color: Colors.white),),
                   onTap: (){
                     Route route = MaterialPageRoute(builder: (c) => SearchProduct());
@@ -104,7 +104,7 @@ class MyDrawer extends StatelessWidget {
                 Divider(height: 10.0, color: Colors.white, thickness: 6.0,),
 
                 ListTile(
-                  leading: Icon(Icons.home, color: Colors.white,),
+                  leading: Icon(Icons.add_location, color: Colors.white,),
                   title: Text("Täze salgy goşmak", style: TextStyle(color: Colors.white),),
                   onTap: (){
                     Route route = MaterialPageRoute(builder: (c) => AddAddress());
@@ -114,7 +114,7 @@ class MyDrawer extends StatelessWidget {
                 Divider(height: 10.0, color: Colors.white, thickness: 6.0,),
 
                 ListTile(
-                  leading: Icon(Icons.home, color: Colors.white,),
+                  leading: Icon(Icons.exit_to_app, color: Colors.white,),
                   title: Text("Çykmak", style: TextStyle(color: Colors.white),),
                   onTap: (){
                     EcommerceApp.auth.signOut().then((c){

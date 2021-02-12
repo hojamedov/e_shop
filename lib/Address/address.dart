@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop/Config/config.dart';
 import 'package:e_shop/Orders//placeOrder.dart';
+import 'package:e_shop/Store/storehome.dart';
 import 'package:e_shop/Widgets/customAppBar.dart';
 import 'package:e_shop/Widgets/loadingWidget.dart';
 import 'package:e_shop/Widgets/wideButton.dart';
@@ -13,6 +14,9 @@ import 'addAddress.dart';
 
 class Address extends StatefulWidget
 {
+  final double totalAmount;
+  const Address({Key key, this.totalAmount}) : super(key: key);
+
   @override
   _AddressState createState() => _AddressState();
 }
@@ -23,7 +27,19 @@ class _AddressState extends State<Address>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-
+      child: Scaffold(
+        appBar: MyAppBar(),
+        floatingActionButton: FloatingActionButton.extended(
+          label: Text("Täze salgy goşmak"),
+          backgroundColor: Colors.pink,
+          icon: Icon(Icons.add_location),
+          onPressed: ()
+            {
+              Route route = MaterialPageRoute(builder: (c) => AddAddress());
+              Navigator.pushReplacement(context, route);
+            },
+        ),
+      ),
     );
   }
 

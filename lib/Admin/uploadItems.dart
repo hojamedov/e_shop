@@ -1,3 +1,4 @@
+
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_shop/Admin/adminShiftOrders.dart';
@@ -86,11 +87,11 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.shop_two, color: Colors.white, size: 200.0,),
+            Icon(Icons.shop_two, color: Colors.white, size: 150.0,),
             Padding(
-              padding: EdgeInsets.only(top: 20.0),
+              padding: EdgeInsets.only(top: 15.0),
               child: RaisedButton(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9.0)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.0)),
                 child: Text("Täze haryt goşmak", style: TextStyle(fontSize: 20.0, color: Colors.white),),
                 color: Colors.green,
                 onPressed: ()=> takeImage(context),
@@ -171,14 +172,14 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
         title: Text("Täze haryt", style: TextStyle(color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.bold,),),
         actions: [
           FlatButton(
-            onPressed: ()=> print("clicked"),
+            onPressed: uploading ? null : ()=> uploadImageAndSaveItemInfo(),
             child: Text("Ýüklemek", style: TextStyle(color: Colors.pink, fontSize: 16.0, fontWeight: FontWeight.bold,),),
           ),
         ],
       ),
       body: ListView(
         children: [
-          uploading ? linearProgress() : Text(""),
+          uploading ? circularProgress() : Text(""),
           Container(
             height: 230.0,
             width: MediaQuery.of(context).size.width * 0.8,
@@ -273,4 +274,50 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
       _titleTextEditingController.clear();
     });
   }
+
+  uploadImageAndSaveItemInfo() async
+  {
+    setState(() {
+      uploading = true;
+    });
+    String imageDownloadUrl = await uploadItemImage(file);
+
+    saveItemInfo(imageDownloadUrl);
+
+  }
+
+  Future<String> uploadItemImage(mFileImage) async
+  {
+    FirebaseStorage storage = FirebaseStorage.instance;
+    Reference ref = storage.ref().child("product_$productId.jpg");
+    UploadTask uploadTask = ref.putFile(mFileImage);
+    uploadTask.then((urlImage) {
+      urlImage.ref.getDownloadURL();
+    });
+  }
+
+  saveItemInfo(String downloadUrl)
+  {
+    final itemsRef = FirebaseFirestore.instance.collection("items");
+    itemsRef.doc(productId).set({
+      "shortInfo": _shortInfoTextEditingController.text.trim(),
+      "longDescription": _descriptionTextEditingController.text.trim(),
+      "price": int.parse(_priceTextEditingController.text),
+      "publishedDate": DateTime.now(),
+      "status": "available",
+      "thumbnailUrl": downloadUrl,
+      "title": _titleTextEditingController.text.trim(),
+    });
+
+    setState(() {
+      file = null;
+      uploading = false;
+      productId = DateTime.now().millisecondsSinceEpoch.toString();
+      _descriptionTextEditingController.clear();
+      _titleTextEditingController.clear();
+      _shortInfoTextEditingController.clear();
+      _priceTextEditingController.clear();
+    });
+  }
 }
+
