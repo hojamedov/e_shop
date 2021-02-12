@@ -151,7 +151,7 @@ class _AdminSignInScreenState extends State<AdminSignInScreen>
       snapshot.docs.forEach((result) {
         if(result.data()["id"] != _adminIdTextEditingController.text.trim())
         {
-          Scaffold.of(context).showSnackBar(SnackBar(content: Text("Loginyňyz nädogry"),));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Loginyňyz nädogry"),));
         }
         else if(result.data()["password"] != _passwordTextEditingController.text.trim())
         {
